@@ -1,3 +1,11 @@
+import 'package:rakuun_tech/pages/catalogue_page.dart';
+import 'package:rakuun_tech/pages/category_page.dart';
+import 'package:rakuun_tech/pages/donation_page.dart';
+import 'package:rakuun_tech/pages/login_page.dart';
+import 'package:rakuun_tech/pages/product_page.dart';
+import 'package:rakuun_tech/pages/shoppingcart_page.dart';
+import 'package:rakuun_tech/pages/signup_page.dart';
+import 'package:rakuun_tech/themes/rakuun_theme.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -9,12 +17,20 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    return MaterialApp(
+      title: 'Rakuun Tech',
+      debugShowCheckedModeBanner: false,
+      initialRoute: 'login',
+      routes: {
+        'login': (context) => LoginPage(),
+        'signup': (context) => SignupPage(),
+        'catalogue': (context) => CataloguePage(),
+        'category': (context) => CategoryPage(),
+        'product': (context) => ProductPage(),
+        'donation': (context) => DonationPage(),
+        'shopping-cart': (context) => ShoppingcartPage(),
+      },
+      theme: (rakuunTheme),
     );
   }
 }

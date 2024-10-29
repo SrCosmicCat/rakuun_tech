@@ -9,6 +9,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_svg: ^2.0.0
+  flutter_highlight: ^0.7.0
+  flutter_spinbox: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -17,3 +20,15 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets: 
+    - assets/icons/
+    - assets/images/
+
+  fonts: 
+    - family: Inter
+      fonts: 
+        - asset: assets/fonts/Inter.ttf
+    - family: LeagueSpartan
+      fonts: 
+        - asset: assets/fonts/LeagueSpartan.ttf 
