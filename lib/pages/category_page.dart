@@ -38,79 +38,86 @@ class _CategoryPageState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
-          title: const BarTitleWidget(),
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-            child: Column(
-              children: [
-                Text(
-                  'LEDS',
-                  style: Theme.of(context).textTheme.headlineLarge,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        title: const BarTitleWidget(),
+        iconTheme: IconThemeData(color: Colors.white),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'LEDS',
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
+              SizedBox(height: 20),
+              SearchBar(
+                leading: Icon(Icons.search_rounded),
+                hintText: 'Buscar',
+                onChanged: (query) {
+                  print('Search query: $query');
+                },
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              GridView.builder(
+                shrinkWrap: true,
+                physics:
+                    NeverScrollableScrollPhysics(), // Evita el desplazamiento independiente
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
                 ),
-                SizedBox(height: 20), //
-                GridView.builder(
-                  shrinkWrap: true,
-                  physics:
-                      NeverScrollableScrollPhysics(), // Evita el desplazamiento independiente
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10.0,
-                    mainAxisSpacing: 10.0,
-                  ),
-                  itemCount: products.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, 'product');
-                      },
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 120,
-                            width: 150,
-                            decoration: BoxDecoration(
-                                color: Theme.of(context).scaffoldBackgroundColor,
-                                borderRadius: BorderRadius.circular(10.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                      offset: Offset(0, 2),
-                                      color: Colors.blueGrey.shade100,
-                                      blurRadius: 2)
-                                ]),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Image(
-                                  image: AssetImage(products[index]['image']!)),
+                itemCount: products.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, 'product');
+                    },
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 120,
+                          width: 150,
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                              borderRadius: BorderRadius.circular(10.0),
+                              boxShadow: [
+                                BoxShadow(
+                                    offset: Offset(0, 2),
+                                    color: Colors.blueGrey.shade100,
+                                    blurRadius: 2)
+                              ]),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Image(
+                                image: AssetImage(products[index]['image']!)),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            products[index]['name']!,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              products[index]['name']!,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
         ),
-        bottomNavigationBar: BottomAppBar(
-          color: Theme.of(context).scaffoldBackgroundColor,
-          height: 100,
-          child: BottomBarRT(),
-        ));
+      ),
+      bottomNavigationBar: BottomBarRT(0),
+    );
   }
 }

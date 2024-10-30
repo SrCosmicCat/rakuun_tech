@@ -9,100 +9,146 @@ class ShoppingcartPage extends StatefulWidget {
 }
 
 class _ShoppingcartPageState extends State<ShoppingcartPage> {
+  bool _localSwitch = false;
+
+  void _toggleSwitch(bool value) {
+    setState(() {
+      _localSwitch = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: const BarTitleWidget(),
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          padding: const EdgeInsets.all(20),
           child: Column(
             children: [
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Mi carrito'),
+                  Text('Mi carrito',
+                      style: Theme.of(context).textTheme.headlineLarge),
+                  SizedBox(height: 20),
                   Container(
-                    decoration: BoxDecoration(border: Border.all()),
-                    child: Column(
-                      children: [
-                        const Text('Productos'),
-                        Divider(
-                          color: Theme.of(context).primaryColor,
-                          thickness: 2,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              children: [
-                                Image(
-                                  image: AssetImage(
-                                      'assets/images/componentes.jpeg'),
-                                  height: 50,
-                                )
-                              ],
-                            ),
-                            // COLUMNA NOMBRE PRECIO
-                            Column(
-                              children: [
-                                Text(
-                                  'Nombre del producto',
-                                  softWrap: true,
-                                ),
-                                Text(
-                                  'Precio del producto',
-                                  softWrap: true,
-                                )
-                              ],
-                            ),
-                            // COLUMNA CANTIDAD Y ELIMINAR
-                            Column(
-                              children: [
-                                MaterialButton(
-                                    onPressed: () {}, child: Text('Eliminar')),
-                                Text('data')
-                              ],
-                            )
-                          ],
-                        ),
-                        Divider(
-                          color: Theme.of(context).primaryColor,
-                          thickness: 2,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [Text('Envío'), Text('Costo')],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Entrega local'),
-                            Switch(
-                              value: false,
-                              onChanged: (value) {},
-                            ),
-                          ],
-                        ),
-                        const Text(
-                            'Con la entrega local activada, el costo de envío se vuelve el 10% de tu compra'),
-                        Divider(
-                          color: Theme.of(context).primaryColor,
-                          thickness: 2,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [Text('Total'), Text('Costo total')],),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 2, color: Theme.of(context).primaryColor),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Productos',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Divider(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                children: [
+                                  Image(
+                                    image: AssetImage(
+                                        'assets/images/componentes.jpeg'),
+                                    height: 50,
+                                  )
+                                ],
+                              ),
+                              // COLUMNA NOMBRE PRECIO
+                              Column(
+                                children: [
+                                  Text(
+                                    'Nombre del producto',
+                                    softWrap: true,
+                                  ),
+                                  Text(
+                                    'Precio del producto',
+                                    softWrap: true,
+                                    style:
+                                        Theme.of(context).textTheme.labelMedium,
+                                  )
+                                ],
+                              ),
+                              // COLUMNA CANTIDAD Y ELIMINAR
+                              Column(
+                                children: [
+                                  Text('Cantidad'),
+                                  MaterialButton(
+                                      onPressed: () {},
+                                      child: Text(
+                                        'Eliminar',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelMedium,
+                                      )),
+                                ],
+                              )
+                            ],
+                          ),
+                          Divider(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [Text('Envío', 
+                            style: TextStyle(fontWeight: FontWeight.bold),), Text('Costo')],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Entrega local', 
+                            style: TextStyle(fontWeight: FontWeight.bold),),
+                              Switch(
+                                value: _localSwitch,
+                                onChanged: (value) {
+                                  _toggleSwitch(value);
+                                },
+                              ),
+                            ],
+                          ),
+                          const Text(
+                              'Con la entrega local activada, el costo de envío se vuelve el 10% de tu compra'),
+                          Divider(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [Text('Total', 
+                            style: TextStyle(fontWeight: FontWeight.bold),), Text('Costo total')],
+                          ),
                           Text('Agrega 490 mas a tu compra para envio grati')
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                  TextButton(onPressed: (){}, child: Text('Pagar'))
+                  SizedBox(height: 30),
+                  TextButton(onPressed: () {
+                    
+                        final snackBar = SnackBar(
+                          duration: Duration(seconds: 2),
+                          backgroundColor: Theme.of(context).primaryColor,
+                          showCloseIcon: true,
+                          content: const Text(
+                              'Aquí se usará la API de mercado pago'),
+                        );
+
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }, child: Text('Pagar'))
                 ],
               ),
-              FloatingActionButton(onPressed: () => Navigator.pop(context))
+              // FloatingActionButton(onPressed: () => Navigator.pop(context))
             ],
           ),
         ),

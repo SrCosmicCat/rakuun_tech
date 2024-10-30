@@ -14,8 +14,11 @@ class LoginPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Iniciar sesión'),
+                  Text('Iniciar sesión',
+                      style: Theme.of(context).textTheme.headlineLarge),
+                  const SizedBox(height: 20),
                   TextFormField(
                       autocorrect: false,
                       decoration: InputDecoration(
@@ -25,6 +28,7 @@ class LoginPage extends StatelessWidget {
                             color: Theme.of(context).primaryColor,
                           )),
                       onChanged: (value) {}),
+                  const SizedBox(height: 20),
                   TextFormField(
                       autocorrect: false,
                       obscureText: true,
@@ -36,17 +40,41 @@ class LoginPage extends StatelessWidget {
                             color: Theme.of(context).primaryColor,
                           )),
                       onChanged: (value) {}),
+                  const SizedBox(height: 20),
                   // Ingresar
-                  TextButton(onPressed: () {
-                    Navigator.pushNamed(context, 'catalogue');
-                  }, child: const Text('Ingresar')),
-                  // Crear Cuenta
-                  const Text('¿Aún no estás registrado?'),
-                  OutlinedButton(
+                  TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, 'signup');
+                        final snackBar = SnackBar(
+                          duration: Duration(seconds: 2),
+                          backgroundColor: Theme.of(context).primaryColor,
+                          showCloseIcon: true,
+                          content: const Text(
+                              'Inició sesión con éxito! (O solo le dio a ingresar)'),
+                        );
+
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+                        Navigator.pushNamed(context, 'catalogue');
                       },
-                      child: const Text('Crear Cuenta'))
+                      child: const Text('Ingresar')),
+
+                  const SizedBox(height: 30),
+
+                  // Crear Cuenta
+                  Column(
+                    children: [
+                      const Text('¿Aún no estás registrado?'),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      OutlinedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, 'signup');
+                        },
+                        child: const Text('Crear Cuenta'),
+                      )
+                    ],
+                  )
                 ],
               ),
             ),

@@ -32,3 +32,6 @@ flutter:
     - family: LeagueSpartan
       fonts: 
         - asset: assets/fonts/LeagueSpartan.ttf 
+    - family: LeagueSpartan-SemiBold
+      fonts:
+        - asset: assets/fonts/LeagueSpartan-SemiBold.ttf

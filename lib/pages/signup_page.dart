@@ -14,8 +14,13 @@ class SignupPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Crear cuenta'),
+                  Text(
+                    'Crear cuenta',
+                    style: Theme.of(context).textTheme.headlineLarge,
+                  ),
+                  const SizedBox(height: 20),
                   TextFormField(
                       autocorrect: false,
                       keyboardType: TextInputType.emailAddress,
@@ -26,6 +31,7 @@ class SignupPage extends StatelessWidget {
                             color: Theme.of(context).primaryColor,
                           )),
                       onChanged: (value) {}),
+                  const SizedBox(height: 20),
                   TextFormField(
                       autocorrect: false,
                       decoration: InputDecoration(
@@ -35,6 +41,7 @@ class SignupPage extends StatelessWidget {
                             color: Theme.of(context).primaryColor,
                           )),
                       onChanged: (value) {}),
+                  const SizedBox(height: 20),
                   TextFormField(
                       autocorrect: false,
                       obscureText: true,
@@ -46,18 +53,27 @@ class SignupPage extends StatelessWidget {
                             color: Theme.of(context).primaryColor,
                           )),
                       onChanged: (value) {}),
+                  const SizedBox(height: 20),
                   // Ingresar
                   TextButton(
                       onPressed: () {
+                        final snackBar = SnackBar(
+                          duration: Duration(seconds: 2),
+                          backgroundColor: Theme.of(context).primaryColor,
+                          showCloseIcon: true,
+                          content: const Text(
+                              'Cuenta creada correctamente! (O solo le dio a continuar)'),
+                        );
+
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         Navigator.pushNamed(context, 'catalogue');
                       },
                       child: const Text('Continuar')),
                   // Crear Cuent
                 ],
               ),
-              
             ),
-            FloatingActionButton(onPressed: () => Navigator.pop(context))
+            // FloatingActionButton(onPressed: () => Navigator.pop(context))
           ],
         ),
       )),

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_highlight/flutter_highlight.dart';
-import 'package:flutter_highlight/themes/github.dart';
 import 'package:rakuun_tech/widgets/bartitle_widget.dart';
 
 class DonationPage extends StatefulWidget {
@@ -17,18 +15,23 @@ class _DonationPageState extends State<DonationPage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: const BarTitleWidget(),
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+          padding: const EdgeInsets.all(20),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 'Dona tu componente',
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
+              SizedBox(height: 10),
               const Text(
                   'Texto para donar un componente paso 1 paso 2 paso 3 y asi akdapsdk'),
+
+              SizedBox(height: 20),
               TextFormField(
                   autocorrect: false,
                   decoration: const InputDecoration(
@@ -36,6 +39,8 @@ class _DonationPageState extends State<DonationPage> {
                     hintText: 'Juan Pérez',
                   ),
                   onChanged: (value) {}),
+
+              SizedBox(height: 20),
               TextFormField(
                   autocorrect: false,
                   decoration: const InputDecoration(
@@ -43,6 +48,8 @@ class _DonationPageState extends State<DonationPage> {
                     hintText: '427 111 5765',
                   ),
                   onChanged: (value) {}),
+
+              SizedBox(height: 20),
               TextFormField(
                   minLines: 2,
                   maxLines: 3,
@@ -52,14 +59,27 @@ class _DonationPageState extends State<DonationPage> {
                       hintText: 'LED con dos usadas',
                       hintStyle: TextStyle()),
                   onChanged: (value) {}),
+
+              SizedBox(height: 20),
               // BOTON PARA SOLICITAR DONACION
               TextButton(
                   onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Aviso', style: Theme.of(context).textTheme.headlineLarge,),
+                            content:
+                            Text('Tu solicitud de donación fue enviada con éxito, espera una respuesta por parte de nuestros colaboradores. ¡Gracias!')
+                           , actions: [TextButton(onPressed: () => Navigator.pop(context) , child: Text('OK'))],
+                          );
+                        });
                   },
                   child: const Text('Solicitar')),
 
+              SizedBox(height: 20),
               // BOTN FLOTANTE PA POPEAR
-              FloatingActionButton(onPressed: () => Navigator.pop(context))
+              // FloatingActionButton(onPressed: () => Navigator.pop(context))
             ],
           ),
         ),

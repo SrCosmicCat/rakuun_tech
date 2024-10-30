@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Top_login extends StatelessWidget {
@@ -11,19 +11,18 @@ class Top_login extends StatelessWidget {
         alignment: Alignment.center,
         color: Theme.of(context).primaryColor,
         height: size.height * 0.3,
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
-                'assets/icons/logo-dark.svg',
-                semanticsLabel: 'Rakuun Tech Logo',
-                height: 100,
-                width: 70,
-              ),
-              Text(
-                'Rakuun Tech',
-                style: (Theme.of(context).textTheme.headlineMedium)),
-              
-            ]));
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          SvgPicture.asset(
+            'assets/icons/logo-dark.svg',
+            semanticsLabel: 'Rakuun Tech Logo',
+            height: 100,
+            width: 70,
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Text('Rakuun Tech',
+              style: (Theme.of(context).textTheme.headlineMedium)),
+        ]));
   }
 }

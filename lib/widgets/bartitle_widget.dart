@@ -6,17 +6,16 @@ class BarTitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Row( crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SvgPicture.asset(
           'assets/icons/logo-dark.svg', // Ruta de tu logo
-          height: 40, // Ajusta el tamaño según sea necesario
+          height: 30, // Ajusta el tamaño según sea necesario
         ),
         const SizedBox(width: 10), // Espacio entre el logo y el texto
         Text('Rakuun Tech',
             style: TextStyle(
-              fontFamily: 'LeagueSpartan',
+              fontFamily: 'LeagueSpartan-SemiBold',
               fontWeight: FontWeight.bold,
               color: Colors.white,
             )),
