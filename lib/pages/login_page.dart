@@ -1,8 +1,29 @@
+import 'package:rakuun_tech/services/auth_service.dart';
 import 'package:rakuun_tech/widgets/top_login_widget.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final void Function()? onTap;
+
+  LoginPage({super.key, this.onTap});
+
+  void login(BuildContext context) async {
+    final authService = AuthService();
+    try {
+      await authService.signInWithEmailPassword(
+          _emailController.text, _passwordController.text);
+          Navigator.pushNamed(context, 'catalogue');
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: ((context) => AlertDialog(
+              title: Text(e.toString()),
+            )),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +41,10 @@ class LoginPage extends StatelessWidget {
                       style: Theme.of(context).textTheme.headlineLarge),
                   const SizedBox(height: 20),
                   TextFormField(
+                    controller: _emailController,
                       autocorrect: false,
                       decoration: InputDecoration(
-                          labelText: 'Usuario',
+                          labelText: 'Correo Electrónico',
                           prefixIcon: Icon(
                             Icons.person_outline_rounded,
                             color: Theme.of(context).primaryColor,
@@ -30,6 +52,7 @@ class LoginPage extends StatelessWidget {
                       onChanged: (value) {}),
                   const SizedBox(height: 20),
                   TextFormField(
+                    controller: _passwordController,
                       autocorrect: false,
                       obscureText: true,
                       decoration: InputDecoration(
@@ -41,20 +64,10 @@ class LoginPage extends StatelessWidget {
                           )),
                       onChanged: (value) {}),
                   const SizedBox(height: 20),
-                  // Ingresar
+                  // BOTÓN DE INGRESAR 
                   TextButton(
                       onPressed: () {
-                        final snackBar = SnackBar(
-                          duration: Duration(seconds: 2),
-                          backgroundColor: Theme.of(context).primaryColor,
-                          showCloseIcon: true,
-                          content: const Text(
-                              'Inició sesión con éxito! (O solo le dio a ingresar)'),
-                        );
-
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                        Navigator.pushNamed(context, 'catalogue');
+                        login(context);
                       },
                       child: const Text('Ingresar')),
 

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:flutter_highlight/themes/arduino-light.dart';
-import 'package:flutter_highlight/themes/darcula.dart';
-import 'package:flutter_highlight/themes/dark.dart';
-import 'package:flutter_highlight/themes/github.dart';
 import 'package:rakuun_tech/widgets/bartitle_widget.dart';
 
 class ProductPage extends StatefulWidget {

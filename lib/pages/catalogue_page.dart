@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rakuun_tech/services/auth_service.dart';
 import 'package:rakuun_tech/widgets/bartitle_widget.dart';
 import 'package:rakuun_tech/widgets/bottomBarRT_widget.dart';
 
@@ -20,6 +21,13 @@ class _CataloguePageState extends State<CataloguePage> {
     {'name': 'Otros', 'image': 'assets/images/otros.jpg'},
   ];
 
+  void logout() {
+    final auth = AuthService();
+    auth.signOut();
+    Navigator.pushNamed(context, 'login');
+    // PONER UN SNACK BAR  
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,6 +35,8 @@ class _CataloguePageState extends State<CataloguePage> {
         backgroundColor: Theme.of(context).primaryColor,
         title: const BarTitleWidget(),
         iconTheme: IconThemeData(color: Colors.white),
+        actions: [IconButton(onPressed: logout, 
+        icon:Icon(Icons.logout_rounded))],
       ),
       body: SingleChildScrollView(
         child: Padding(

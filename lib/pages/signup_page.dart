@@ -1,13 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:rakuun_tech/services/auth_service.dart';
 import 'package:rakuun_tech/widgets/top_login_widget.dart';
 
 class SignupPage extends StatelessWidget {
-  const SignupPage({super.key});
+  final TextEditingController _userController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final void Function()? onTap;
+
+  SignupPage({super.key, this.onTap});
+
+  void register(BuildContext context) async {
+    final auth = AuthService();
+    try {
+      await auth.signUpwithEmailPassword(_emailController.text, _passwordController.text);
+      Navigator.pushNamed(context, 'catalogue');
+    }
+    catch (e) {
+       showDialog(
+        context: context,
+        builder: ((context) => AlertDialog(
+              title: Text(e.toString()),
+            )),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      body: (SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             const Top_login(),
@@ -22,61 +46,56 @@ class SignupPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
-                      autocorrect: false,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                          labelText: 'Correo electrónico',
-                          prefixIcon: Icon(
-                            Icons.email_outlined,
-                            color: Theme.of(context).primaryColor,
-                          )),
-                      onChanged: (value) {}),
+                    controller: _emailController,
+                    autocorrect: false,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                      labelText: 'Correo electrónico',
+                      prefixIcon: Icon(
+                        Icons.email_outlined,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 20),
                   TextFormField(
-                      autocorrect: false,
-                      decoration: InputDecoration(
-                          labelText: 'Usuario',
-                          prefixIcon: Icon(
-                            Icons.person_outline_rounded,
-                            color: Theme.of(context).primaryColor,
-                          )),
-                      onChanged: (value) {}),
+                    controller: _userController,
+                    autocorrect: false,
+                    decoration: InputDecoration(
+                      labelText: 'Usuario',
+                      prefixIcon: Icon(
+                        Icons.person_outline_rounded,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 20),
                   TextFormField(
-                      autocorrect: false,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                          labelText: 'Contraseña',
-                          hintText: '********',
-                          prefixIcon: Icon(
-                            Icons.password_outlined,
-                            color: Theme.of(context).primaryColor,
-                          )),
-                      onChanged: (value) {}),
+                    controller: _passwordController,
+                    autocorrect: false,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: 'Contraseña',
+                      hintText: '********',
+                      prefixIcon: Icon(
+                        Icons.password_outlined,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 20),
-                  // Ingresar
                   TextButton(
-                      onPressed: () {
-                        final snackBar = SnackBar(
-                          duration: Duration(seconds: 2),
-                          backgroundColor: Theme.of(context).primaryColor,
-                          showCloseIcon: true,
-                          content: const Text(
-                              'Cuenta creada correctamente! (O solo le dio a continuar)'),
-                        );
-
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        Navigator.pushNamed(context, 'catalogue');
-                      },
-                      child: const Text('Continuar')),
-                  // Crear Cuent
+                    onPressed: () async {
+                      register(context);
+                    },
+                    child: const Text('Continuar'),
+                  ),
                 ],
               ),
             ),
-            // FloatingActionButton(onPressed: () => Navigator.pop(context))
           ],
         ),
-      )),
+      ),
     );
   }
 }
