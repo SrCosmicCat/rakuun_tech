@@ -1,40 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:rakuun_tech/pages/product_page.dart';
 import 'package:rakuun_tech/widgets/bartitle_widget.dart';
 import 'package:rakuun_tech/widgets/bottomBarRT_widget.dart';
 
 class CategoryPage extends StatefulWidget {
-  const CategoryPage({super.key});
+  final Map jsondata;
+  final String category;
+  const CategoryPage({super.key, required this.jsondata, required this.category});
 
   @override
   State<CategoryPage> createState() => _CategoryPageState();
 }
 
 class _CategoryPageState extends State<CategoryPage> {
-  final List<Map<String, String>> products = [
-    {
-      'name': 'Led Genérico 5mm',
-      'image': 'assets/images/sensores.jpg',
-      'price': '10'
-    },
-    {
-      'name': 'Led Rojo 5mm',
-      'image': 'assets/images/microcontroladores.png',
-      'price': '10'
-    },
-    {
-      'name': 'Led Verde 5mm',
-      'image': 'assets/images/sensores.jpg',
-      'price': '10'
-    },
-    {
-      'name': 'Led Amarillo 5mm',
-      'image': 'assets/images/otros.jpg',
-      'price': '10'
-    },
-    {'name': 'Led Azul 5mm', 'image': 'assets/images/otros.jpg', 'price': '10'},
-    {'name': 'Led RGB 5mm', 'image': 'assets/images/otros.jpg', 'price': '20'},
-  ];
-
+  late String categoria = widget.category;
+  late List productos = widget.jsondata['productos'];
+ 
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +32,7 @@ class _CategoryPageState extends State<CategoryPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'LEDS',
+                categoria,
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
               SizedBox(height: 20),
@@ -71,11 +53,12 @@ class _CategoryPageState extends State<CategoryPage> {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                 ),
-                itemCount: products.length,
+                itemCount: productos.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, 'product');
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductPage(productoData: productos[index])));
+                      print(productos[index]);
                     },
                     child: Column(
                       children: [
@@ -94,16 +77,16 @@ class _CategoryPageState extends State<CategoryPage> {
                           child: Padding(
                             padding: const EdgeInsets.all(10),
                             child: Image(
-                                image: AssetImage(products[index]['image']!)),
+                                image: NetworkImage(productos[index]['imagen']!)),
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Text(
-                            products[index]['name']!,
+                            productos[index]['nombre']!,
                             style: const TextStyle(
                               color: Colors.black,
-                              fontSize: 15.0,
+                              fontSize: 12.0,
                               fontWeight: FontWeight.bold,
                             ),
                           ),

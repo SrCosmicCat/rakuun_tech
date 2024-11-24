@@ -4,13 +4,15 @@ import 'package:flutter_highlight/themes/arduino-light.dart';
 import 'package:rakuun_tech/widgets/bartitle_widget.dart';
 
 class ProductPage extends StatefulWidget {
-  const ProductPage({super.key});
+  final Map productoData;
+  const ProductPage({super.key, required this.productoData});
 
   @override
   State<ProductPage> createState() => _ProductPageState();
 }
 
 class _ProductPageState extends State<ProductPage> {
+  late Map producto = widget.productoData;
   int _quantity = 1;
 
   void _incrementQuantity() {
@@ -33,7 +35,7 @@ class _ProductPageState extends State<ProductPage> {
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor,
           title: const BarTitleWidget(),
-        iconTheme: IconThemeData(color: Colors.white),
+          iconTheme: IconThemeData(color: Colors.white),
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -42,7 +44,7 @@ class _ProductPageState extends State<ProductPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  'Producto name',
+                  producto['nombre'],
                   style: Theme.of(context).textTheme.headlineLarge,
                 ),
                 SizedBox(height: 20),
@@ -62,22 +64,28 @@ class _ProductPageState extends State<ProductPage> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(10),
-                    child: Image.asset('assets/images/componentes.jpeg'),
+                    child: Image(image: NetworkImage(producto['imagen'])),
                   ),
                 ),
-SizedBox(height: 20,),
+                const SizedBox(
+                  height: 20,
+                ),
                 // CuADRO DE DESCRIPCION
                 Container(
-                  padding: EdgeInsets.all(20),
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     border: Border.all(
                         color: Theme.of(context).primaryColor, width: 2),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Column(
+                  child: const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Descripción:',
-                          style: Theme.of(context).textTheme.headlineMedium),
+                      Text(
+                        'Descripción:',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                       const Text('Diodo LED 5mm Bicolor 2 patas'),
                       const Text('- Tensión: 3V'),
                       const Text('- Color: rojo y azul'),
@@ -85,10 +93,17 @@ SizedBox(height: 20,),
                     ],
                   ),
                 ),
-                SizedBox(height: 20,),
+                const SizedBox(
+                  height: 20,
+                ),
                 // PRECIO Y CODIGO DE EJEMPLO
-                 Text("Precio: 10", style: Theme.of(context).textTheme.labelMedium,),
-                SizedBox(height: 20,),
+                Text(
+                  "Precio: " + producto['precio'].toString() + " \$",
+                  style: Theme.of(context).textTheme.labelMedium,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
                 TextButton(
                   onPressed: () {
                     showDialog(
@@ -140,14 +155,15 @@ void loop() {
                 ),
                 OutlinedButton(
                   onPressed: () {
-                        final snackBar = SnackBar(
-                          duration: Duration(seconds: 2),
-                          backgroundColor: Theme.of(context).primaryColor,
-                          showCloseIcon: true,
-                          content: const Text('Agregados al carrito con éxito'),
-                        );
+                    final snackBar = SnackBar(
+                      duration: Duration(seconds: 2),
+                      backgroundColor: Theme.of(context).primaryColor,
+                      showCloseIcon: true,
+                      content: const Text('Agregados al carrito con éxito'),
+                    );
 
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);},
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  },
                   child: const Text('Añadir al carrito'),
                 ),
 
