@@ -4,8 +4,8 @@ class Product {
   String? imagen;
   String nombre;
   double precio;
+  int cantidad;
   String? descripcion;
-  String? codigo;
   String? id;
 
   Product(
@@ -13,7 +13,7 @@ class Product {
       this.imagen,
       required this.nombre,
       required this.precio,
-      this.codigo,
+      required this.cantidad,
       this.descripcion,
       this.id,});
 
@@ -24,24 +24,24 @@ class Product {
   factory Product.fromMap(Map<String, dynamic> json) => Product(
         imagen: json["imagen"],
         nombre: json["nombre"],
+        cantidad: json["cantidad"],
         precio: json["precio"]?.toDouble(),
-        codigo: json["codigo"],
         descripcion: json["descripcion"],
       );
 
   Map<String, dynamic> toMap() => {
         "imagen": imagen,
         "nombre": nombre,
+        "cantidad": cantidad,
         "precio": precio,
-        "codigo": codigo,
         "descripcion": descripcion
       };
 
   Product copy() => Product(
       imagen: this.imagen,
       nombre: this.nombre,
+      cantidad: this.cantidad,
       precio: this.precio,
-      codigo: this.codigo,
       descripcion: this.descripcion,
       id: this.id);
 }
