@@ -7,9 +7,11 @@ class CartProvider extends ChangeNotifier {
   UnmodifiableListView<Map> get cartItems => UnmodifiableListView(_cartItems);
 
   double get price => _cartItems.fold<double>(0.0, (previousValue, element) => previousValue += element['precio'] * element['cantidad']);
-
   
   double get envio => 500 - price;
+
+  double get costoEnvio => 109;
+
 
   void addItem(Map item) {
     _cartItems.add(item);

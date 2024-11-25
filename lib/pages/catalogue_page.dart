@@ -4,18 +4,17 @@ import 'package:rakuun_tech/widgets/bottomBarRT_widget.dart';
 import 'package:rakuun_tech/services/auth_service.dart';
 import 'package:rakuun_tech/widgets/bartitle_widget.dart';
 import 'package:flutter/material.dart';
-
 import 'package:http/http.dart' as http;
 
 class CataloguePage extends StatefulWidget {
   const CataloguePage({super.key});
-
   @override
   State<CataloguePage> createState() => _CataloguePageState();
 }
 
 class _CataloguePageState extends State<CataloguePage> {
   late Future<List<dynamic>> response;
+  TextEditingController searchController = TextEditingController();
 
   Future<List<dynamic>> fetchProductos() async {
     var result = await http.get(Uri.parse(
@@ -42,9 +41,9 @@ class _CataloguePageState extends State<CataloguePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: const BarTitleWidget(),
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
         actions: [
-          IconButton(onPressed: logout, icon: Icon(Icons.logout_rounded))
+          IconButton(onPressed: logout, icon: const Icon(Icons.logout_rounded))
         ],
       ),
       body: SingleChildScrollView(
@@ -57,17 +56,6 @@ class _CataloguePageState extends State<CataloguePage> {
                 'Categorías',
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
-              SizedBox(height: 20),
-
-              // BARRA DE BUSQUEDA
-
-              SearchBar(
-                leading: Icon(Icons.search_rounded),
-                hintText: 'Buscar',
-                onChanged: (query) {
-                  print('Search query: $query');
-                },
-              ),
               const SizedBox(height: 20),
               FutureBuilder(
                   future: response,
@@ -76,7 +64,7 @@ class _CataloguePageState extends State<CataloguePage> {
                       return GridView.builder(
                         shrinkWrap: true,
                         physics:
-                            const NeverScrollableScrollPhysics(), // Evita el desplazamiento independiente
+                            const NeverScrollableScrollPhysics(),
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
@@ -90,9 +78,7 @@ class _CataloguePageState extends State<CataloguePage> {
                                   MaterialPageRoute(
                                       builder: (context) => CategoryPage(
                                           jsondata: snapshot.data![index],
-                                          category: snapshot.data![index]
-                                              ['nombre'])));
-                            },
+                                          category: snapshot.data![index]['nombre'])));},
                             child: Column(
                               children: [
                                 Container(
@@ -104,7 +90,7 @@ class _CataloguePageState extends State<CataloguePage> {
                                       borderRadius: BorderRadius.circular(10.0),
                                       boxShadow: [
                                         BoxShadow(
-                                            offset: Offset(0, 2),
+                                            offset: const Offset(0, 2),
                                             color: Colors.blueGrey.shade100,
                                             blurRadius: 2)
                                       ]),
@@ -134,7 +120,7 @@ class _CataloguePageState extends State<CataloguePage> {
                     }
                     // Si no carga retorna un indicador de progreso
                     else {
-                      return Center(
+                      return const Center(
                         child: CircularProgressIndicator(),
                       );
                     }
@@ -143,7 +129,7 @@ class _CataloguePageState extends State<CataloguePage> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomBarRT(0),
+      bottomNavigationBar: const BottomBarRT(0),
     );
   }
 }

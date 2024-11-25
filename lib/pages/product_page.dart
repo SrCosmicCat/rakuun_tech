@@ -38,11 +38,11 @@ class _ProductPageState extends State<ProductPage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: const BarTitleWidget(),
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -50,7 +50,7 @@ class _ProductPageState extends State<ProductPage> {
                 producto['nombre'],
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // CUADRO DE PRODUCTO
               Container(
                 height: 200,
@@ -66,9 +66,20 @@ class _ProductPageState extends State<ProductPage> {
                   ],
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Image(image: NetworkImage(producto['imagen'])),
-                ),
+                    padding: const EdgeInsets.all(10),
+
+                    // * IMAGEN DEL PRODUCTO
+                    child: producto['imagen'] == null
+                    // Si no hay imagen
+                        ? const Image(
+                            image: AssetImage('assets/images/no-images.png'),
+                            fit: BoxFit.cover,
+                          )
+                    // Si hay imagen
+                        : FadeInImage(
+                            placeholder:
+                                const AssetImage('assets/images/loading.gif'),
+                            image: NetworkImage(producto['imagen'])),),
               ),
               const SizedBox(
                 height: 20,

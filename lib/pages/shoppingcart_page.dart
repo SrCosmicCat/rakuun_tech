@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:rakuun_tech/providers/cart_provider.dart';
 import 'package:rakuun_tech/widgets/bartitle_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ShoppingcartPage extends StatefulWidget {
   const ShoppingcartPage({super.key});
@@ -11,14 +11,13 @@ class ShoppingcartPage extends StatefulWidget {
 }
 
 class _ShoppingcartPageState extends State<ShoppingcartPage> {
-  double paraEnvio = 500;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: const BarTitleWidget(),
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Consumer<CartProvider>(
         builder: (context, provider, child) => SingleChildScrollView(
@@ -31,7 +30,7 @@ class _ShoppingcartPageState extends State<ShoppingcartPage> {
                   'Mi carrito',
                   style: Theme.of(context).textTheme.headlineLarge,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Container(
                   decoration: BoxDecoration(
                     border: Border.all(
@@ -45,10 +44,12 @@ class _ShoppingcartPageState extends State<ShoppingcartPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Productos',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
+                        provider.price == 0
+                            ? Text('No has agregado ningún producto')
+                            : Text(
+                                'Productos',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
                         Divider(
                           color: Theme.of(context).primaryColor,
                         ),
@@ -109,47 +110,61 @@ class _ShoppingcartPageState extends State<ShoppingcartPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
+                            const Text(
                               'Envío',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            provider.envio > 0
-                                ? Text('\$${109}')
-                                : Text('Gratis')
+                            provider.price == 0
+                                ? Text('')
+                                : provider.envio > 0
+                                    ? Text('\$${provider.costoEnvio}')
+                                    : const Text('Gratis')
                           ],
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            provider.envio > 0
-                                ? Text(
-                                    'Agrega ${provider.envio} para envío gratis',
-                                  )
-                                : Text('Tienes envío gratis'),
-                          ],
-                        ),
+                        provider.price == 0
+                            ? const Text(
+                                'Agrega productos para calcular tu envío')
+                            : Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  provider.envio > 0
+                                      ? Text(
+                                          'Agrega \$${provider.envio} para envío gratis',
+                                        )
+                                      : const Text('Tienes envío gratis'),
+                                ],
+                              ),
                         Divider(
                           color: Theme.of(context).primaryColor,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              'Total',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text('\$${provider.price}'),
+                            provider.price == 0
+                                ? const Text('')
+                                : const Text(
+                                    'Total',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                            provider.envio > 0
+                                ? provider.price == 0
+                                    ? const Text('Aquí se mostrará tu total')
+                                    : Text(
+                                        '\$${provider.price + provider.costoEnvio}')
+                                : Text('\$${provider.price}')
                           ],
                         ),
                       ],
                     ),
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 TextButton(
                   onPressed: () {
                     final snackBar = SnackBar(
-                      duration: Duration(seconds: 2),
+                      duration: const Duration(seconds: 2),
                       backgroundColor: Theme.of(context).primaryColor,
                       showCloseIcon: true,
                       content: const Text(
@@ -159,7 +174,7 @@ class _ShoppingcartPageState extends State<ShoppingcartPage> {
 
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   },
-                  child: Text('Pagar'),
+                  child: const Text('Pagar'),
                 ),
               ],
             ),

@@ -14,8 +14,38 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
+  List<dynamic> filteredProductos = [];
+  TextEditingController searchController = TextEditingController();
+
   late String categoria = widget.category;
   late List productos = widget.jsondata['productos'];
+
+  @override
+  void initState() {
+    super.initState();
+    filteredProductos = productos;
+  }
+
+  void filterSearchResults(String query) {
+    List<dynamic> productosCoincidentes = [];
+    productosCoincidentes.addAll(productos);
+    if (query.isNotEmpty) {
+      List<dynamic> productosCoincidentesData = [];
+      productosCoincidentes.forEach((item) {
+        if (item['nombre'].toString().toLowerCase().contains(query.toLowerCase())) {
+          productosCoincidentesData.add(item);
+        }
+      });
+      setState(() {
+        filteredProductos = productosCoincidentesData;
+      });
+      return;
+    } else {
+      setState(() {
+        filteredProductos = productos;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +53,7 @@ class _CategoryPageState extends State<CategoryPage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: const BarTitleWidget(),
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -35,14 +65,21 @@ class _CategoryPageState extends State<CategoryPage> {
                 categoria,
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
-              SizedBox(height: 20),
-              SearchBar(
-                leading: Icon(Icons.search_rounded),
-                hintText: 'Buscar',
-                onChanged: (query) {
-                  print('Search query: $query');
+              const SizedBox(height: 20),
+              
+              // * BARRA DE BUSQUEDA
+              TextField(
+                controller: searchController,
+                onChanged: (value) {
+                  filterSearchResults(value);
                 },
-              ),
+                onTapOutside: (event) => FocusManager.instance.primaryFocus!.unfocus(),
+                decoration: const InputDecoration(
+                  prefixIcon: Icon(Icons.search_rounded),
+                  hintText: 'Busca...',
+                ),
+              ), //* Barra de búsqueda
+
               const SizedBox(
                 height: 20,
               ),
@@ -53,7 +90,7 @@ class _CategoryPageState extends State<CategoryPage> {
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                 ),
-                itemCount: productos.length,
+                itemCount: filteredProductos.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
@@ -61,7 +98,7 @@ class _CategoryPageState extends State<CategoryPage> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ProductPage(
-                            productoData: productos[index],
+                            productoData: filteredProductos[index],
                           ),
                         ),
                       );
@@ -82,7 +119,7 @@ class _CategoryPageState extends State<CategoryPage> {
                               ]),
                           child: Padding(
                               padding: const EdgeInsets.all(10),
-                              child: productos[index]['imagen']! == null
+                              child: filteredProductos[index]['imagen'] == null
                                   ? const Image(
                                       image: AssetImage(
                                           'assets/images/no-images.png'),
@@ -92,12 +129,12 @@ class _CategoryPageState extends State<CategoryPage> {
                                       placeholder: const AssetImage(
                                           'assets/images/loading.gif'),
                                       image: NetworkImage(
-                                          productos[index]['imagen']))),
+                                          filteredProductos[index]['imagen']))),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Text(
-                            productos[index]['nombre']!,
+                            filteredProductos[index]['nombre']!,
                             style: const TextStyle(
                               color: Colors.black,
                               fontSize: 12.0,
